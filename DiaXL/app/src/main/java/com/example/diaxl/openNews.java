@@ -24,6 +24,14 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import com.google.ai.client.generativeai.GenerativeModel;
+import com.google.ai.client.generativeai.java.GenerativeModelFutures;
+import com.google.ai.client.generativeai.type.Content;
+import com.google.ai.client.generativeai.type.GenerateContentResponse;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+
 public class openNews extends AppCompatActivity {
 
     private TextView contentView;
@@ -154,23 +162,54 @@ public class openNews extends AppCompatActivity {
     }
 
     private void fetchSummary(String url) {
-        Toast.makeText(this, "Generando resumen...", Toast.LENGTH_SHORT).show();
-        extractorAPI api = getRetrofit().create(extractorAPI.class);
-        api.summarize(url, "Neny7bBVMnUnYjAUh04x3ZKq7PxG9f4IVDnSb6rZ", 3).enqueue(new Callback<textExtractor>() {
+
+        Log.d("GEMINI_DEBUG", "--- Iniciando proceso de resumen ---");
+
+        if (fullArticleText == null || fullArticleText.isEmpty()) {
+            Log.e("GEMINI_DEBUG", "ERROR: fullArticleText está vacío.");
+            return;
+        }
+
+        // 1. Configuración del modelo
+        String myApiKey = "AIzaSyCohGuhpvUT79YclNQr9FEXUkcLOLU_cRU";
+        GenerativeModel gm = new GenerativeModel("gemini-flash-latest", myApiKey);
+        GenerativeModelFutures model = GenerativeModelFutures.from(gm);
+
+        // 2. Preparar el Prompt y el Contenido
+        String prompt = "Resume este texto de noticia en español, no escribas nada mas que el resumen: " + fullArticleText;
+        Content content = new Content.Builder().addText(prompt).build();
+        Log.d("GEMINI_DEBUG", "Enviando petición a los servidores de Google...");
+
+        // 3. Ejecutar la petición (Ahora 'model' y 'content' ya existen)
+        ListenableFuture<GenerateContentResponse> response = model.generateContent(content);
+
+        Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
+
             @Override
-            public void onResponse(@NonNull Call<textExtractor> call, @NonNull retrofit2.Response<textExtractor> response) {
-                if (response.isSuccessful() && response.body() != null && response.body().data != null) {
-                    summaryText = response.body().data.getExtractedText();
-                    if (isAbstSelected) {
-                        contentView.setText(summaryText);
+            public void onSuccess(GenerateContentResponse result) {
+                String resultText = result.getText();
+                Log.d("GEMINI_DEBUG", "¡CONEXIÓN EXITOSA!");
+
+                runOnUiThread(() -> {
+                    if (resultText != null) {
+                        summaryText = resultText;
+                        if (isAbstSelected) {
+                            contentView.setText(summaryText);
+                        }
+                    } else {
+                        Log.w("GEMINI_DEBUG", "Respuesta vacía del modelo.");
                     }
-                }
+                });
             }
+
             @Override
-            public void onFailure(@NonNull Call<textExtractor> call, @NonNull Throwable t) {
-                Log.e("API_ERROR", "Error: " + t.getMessage());
+            public void onFailure(Throwable t) {
+                Log.e("GEMINI_DEBUG", "FALLO CRÍTICO: " + t.getMessage());
+                runOnUiThread(() ->
+                        Toast.makeText(openNews.this, "Error de IA: " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show()
+                );
             }
-        });
+        }, this.getMainExecutor());
     }
 
     private Retrofit getRetrofit() {
