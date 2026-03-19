@@ -171,7 +171,7 @@ public class openNews extends AppCompatActivity {
         }
 
         // 1. Configuración del modelo
-        String myApiKey = "AIzaSyCohGuhpvUT79YclNQr9FEXUkcLOLU_cRU";
+        String myApiKey = "no me deja poner la API publica";
         GenerativeModel gm = new GenerativeModel("gemini-flash-latest", myApiKey);
         GenerativeModelFutures model = GenerativeModelFutures.from(gm);
 
