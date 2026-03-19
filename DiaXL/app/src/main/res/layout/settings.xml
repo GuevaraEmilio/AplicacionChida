@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/config"
+    android:background="#F5F1E9"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:transitionName="expand_settings"
+    tools:context=".settings">
+
+    <LinearLayout
+        android:id="@+id/top_panel"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="#FFFFFF"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:text="Configuracion"
+        android:textSize="42dp"
+        android:fontFamily="@font/amaranth"
+        android:textStyle="bold"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/panel_border"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:background="#4A7BA7"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/top_panel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ScrollView
+        android:id="@+id/config_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/top_panel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/lanCard"
+                android:layout_height="35dp"
+                android:layout_width="match_parent"
+                app:strokeWidth="4dp"
+                app:strokeColor="#4A7BA7"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:fontFamily="@font/amaranth"
+                     android:textSize="24dp"
+                     android:text="Lenguaje"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <View
+                android:id="@+id/sep1"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_weight="1"
+                android:background="#4A7BA7"
+                android:elevation="0dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                app:strokeWidth="4dp"
+                app:strokeColor="#4A7BA7">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/amaranth"
+                    android:textSize="24dp"
+                    android:text="Region"/>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

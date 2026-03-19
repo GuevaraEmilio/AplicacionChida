@@ -35,7 +35,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 public class openNews extends AppCompatActivity {
 
     private TextView contentView;
-    private boolean isAbstSelected = false;
+    private boolean isAbstSelected = true;
     private TextToSpeech tts;
     private boolean isReading = false;
     private String fullArticleText = "";
@@ -88,8 +88,8 @@ public class openNews extends AppCompatActivity {
         });
 
         // El boton de resumen inicia desactivado
-        abst.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#CCCCCC")));
-        abst.setAlpha(0.5f);
+        abst.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4A7BA7")));
+        abst.setAlpha(1.0f);
         //El boton de lectura inicia desactivado
         read.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#CCCCCC")));
         read.setAlpha(0.5f);
@@ -134,7 +134,7 @@ public class openNews extends AppCompatActivity {
         });
 
         titleView.setText(title);
-        contentView.setText(originalContent != null ? originalContent : "Cargando...");
+        Toast.makeText(this, "Generando resumen...", Toast.LENGTH_SHORT).show();
         Glide.with(this).load(imageUrl).into(imageView);
 
         if (url != null && !url.isEmpty()) {
@@ -149,7 +149,9 @@ public class openNews extends AppCompatActivity {
             public void onResponse(@NonNull Call<textExtractor> call, @NonNull retrofit2.Response<textExtractor> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().data != null) {
                     fullArticleText = response.body().data.getExtractedText();
-                    if (!isAbstSelected) {
+                    if (isAbstSelected) {
+                        fetchSummary(url);
+                    } else {
                         contentView.setText(fullArticleText);
                     }
                 }
@@ -171,7 +173,7 @@ public class openNews extends AppCompatActivity {
         }
 
         // 1. Configuración del modelo
-        String myApiKey = "no me deja poner la API publica";
+        String myApiKey = "kk";
         GenerativeModel gm = new GenerativeModel("gemini-flash-latest", myApiKey);
         GenerativeModelFutures model = GenerativeModelFutures.from(gm);
 
@@ -211,6 +213,8 @@ public class openNews extends AppCompatActivity {
             }
         }, this.getMainExecutor());
     }
+
+
 
     private Retrofit getRetrofit() {
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(chain -> {

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         // Find common views
         TextView dateText = findViewById(R.id.date);
         Button searchButton = findViewById(R.id.btn_action1);
+        Button config = findViewById(R.id.settings_button);
         ImageView noInternet = findViewById(R.id.noInternet);
         TextView w1 = findViewById(R.id.wrng1);
 
@@ -106,6 +108,16 @@ public class MainActivity extends AppCompatActivity {
         // Search navigation
         searchButton.setOnClickListener(e -> {
             startActivity(new Intent(MainActivity.this, search.class));
+        });
+
+        config.setOnClickListener(e -> {
+            Intent intent = new Intent(MainActivity.this, settings.class);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    MainActivity.this,
+                    config,
+                    "expand_settings"
+            );
+            startActivity(intent, options.toBundle());
         });
     }
 

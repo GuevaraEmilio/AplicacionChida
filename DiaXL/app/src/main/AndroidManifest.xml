@@ -17,6 +17,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".search" />
         <activity android:name=".openNews" />
+        <activity android:name=".settings" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
