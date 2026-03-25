@@ -2,6 +2,7 @@ package com.example.diaxl;
 
 import android.content.Context;
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,7 +24,6 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -44,7 +44,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class search extends AppCompatActivity {
+public class search extends BaseActivity {
 
     private static final int PERMISSION_CODE = 1;
     private SpeechRecognizer speechRecognizer;
@@ -210,6 +210,11 @@ public class search extends AppCompatActivity {
 
 
     private void performSearch(String query, ImageView noInternet, TextView w1){
+        // Fetch user preferences for search
+        SharedPreferences prefs = getSharedPreferences("mySettings", MODE_PRIVATE);
+        String lang = prefs.getString("selected_lang", "es");
+        String region = prefs.getString("selected_region", "mx");
+
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(chain -> {
                     Request request = chain.request().newBuilder()
@@ -225,7 +230,7 @@ public class search extends AppCompatActivity {
                 .build();
 
         GNewsApi api = retrofit.create(GNewsApi.class);
-        api.searchNews(query, "es", "mx", "e6e48d3d7e2eb74ed55eeecd9c694d67").enqueue(new Callback<NewsResponse>() {
+        api.searchNews(query, lang, region, "e6e48d3d7e2eb74ed55eeecd9c694d67").enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response){
                 if(response.isSuccessful() && (response.body() != null)){

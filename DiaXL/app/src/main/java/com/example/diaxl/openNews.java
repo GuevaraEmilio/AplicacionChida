@@ -1,5 +1,6 @@
 package com.example.diaxl;
 
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,13 +13,11 @@ import android.widget.Toast;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.Locale;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -32,7 +31,7 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 
-public class openNews extends AppCompatActivity {
+public class openNews extends BaseActivity {
 
     private TextView contentView;
     private boolean isAbstSelected = true;
@@ -68,6 +67,16 @@ public class openNews extends AppCompatActivity {
         tts = new TextToSpeech(this, status -> {
             if (status == TextToSpeech.SUCCESS) {
                 tts.setLanguage(Locale.getDefault()); //obtiene el lenguaje del sistema
+                
+                // Aplicar configuracion de velocidad y volumen
+                SharedPreferences prefs = getSharedPreferences("mySettings", MODE_PRIVATE);
+                float speed = prefs.getFloat("reading_speed", 1.0f);
+                float volume = prefs.getFloat("voice_volume", 1.0f);
+                
+                tts.setSpeechRate(speed);
+                // El volumen de TTS no se puede configurar directamente con un float en tts.setVolume ya que no existe esa funcion.
+                // Se suele manejar a traves de los parametros del Bundle en el metodo speak().
+
                 tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {//Registra el progreso de la voz
                     @Override
                     public void onStart(String utteranceId) {}
@@ -103,7 +112,16 @@ public class openNews extends AppCompatActivity {
             } else {
                 String text = contentView.getText().toString();
                 if (!text.isEmpty() && tts != null) {
-                    tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "NEWS_READER_ID");
+                    
+                    // Obtener volumen de preferencias
+                    SharedPreferences prefs = getSharedPreferences("mySettings", MODE_PRIVATE);
+                    float volume = prefs.getFloat("voice_volume", 1.0f);
+                    
+                    // El volumen se pasa a traves de un Bundle
+                    Bundle params = new Bundle();
+                    params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, volume);
+                    
+                    tts.speak(text, TextToSpeech.QUEUE_FLUSH, params, "NEWS_READER_ID");
                     isReading = true;
                     read.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4A7BA7")));
                     read.setAlpha(1.0f);

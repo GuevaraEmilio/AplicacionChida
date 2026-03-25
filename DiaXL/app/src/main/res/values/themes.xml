@@ -6,6 +6,11 @@
     </style>
 
     <style name="Theme.DiaXL" parent="Base.Theme.DiaXL" />
+
+    <style name="Theme.DiaXL.Amaranth" parent="Theme.DiaXL">
+        <item name="fontFamily">@font/amaranth</item>
+    </style>
+
     <style name="RoundedImageView">
         <item name="cornerSize">16dp</item> <!-- Adjust this value for more or less rounding -->
     </style>

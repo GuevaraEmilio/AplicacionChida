@@ -1,6 +1,7 @@
 package com.example.diaxl;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -29,7 +29,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
     private NewsAdapter adapter;
@@ -56,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
         ImageView noInternet = findViewById(R.id.noInternet);
         TextView w1 = findViewById(R.id.wrng1);
 
+        // Fetch user preferences
+        SharedPreferences prefs = getSharedPreferences("mySettings", MODE_PRIVATE);
+        String lang = prefs.getString("selected_lang", "es");
+        String region = prefs.getString("selected_region", "mx");
+
         // Configure OkHttpClient with a User-Agent header to bypass Cloudflare bot protection
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(chain -> {
@@ -74,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         
         GNewsApi gnews = retro.create(GNewsApi.class);
-        gnews.getTopHeadlines("es", "mx", "e6e48d3d7e2eb74ed55eeecd9c694d67").enqueue(new Callback<NewsResponse>() {
+        gnews.getTopHeadlines(lang, region, "e6e48d3d7e2eb74ed55eeecd9c694d67").enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
                 if(response.isSuccessful() && response.body() != null){

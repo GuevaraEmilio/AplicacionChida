@@ -21,14 +21,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_weight="1"
-        android:text="Configuracion"
-        android:textSize="42dp"
-        android:fontFamily="@font/amaranth"
-        android:textStyle="bold"/>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:text="Configuracion"
+            android:textSize="42sp"
+            android:fontFamily="@font/amaranth"
+            android:textStyle="bold"/>
     </LinearLayout>
 
     <View
@@ -52,50 +52,329 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="100dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/amaranth"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textSize="32sp"
+                android:text="Noticias"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/lanCard"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 app:strokeWidth="4dp"
                 app:strokeColor="#4A7BA7"
-                android:layout_marginTop="15dp">
-
-                <TextView
-                     android:layout_height="wrap_content"
-                     android:layout_width="wrap_content"
-                     android:fontFamily="@font/amaranth"
-                     android:textSize="24dp"
-                     android:text="Lenguaje"/>
-            </com.google.android.material.card.MaterialCardView>
-
-            <View
-                android:id="@+id/sep1"
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:layout_weight="1"
-                android:background="#4A7BA7"
-                android:elevation="0dp" />
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp">
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/amaranth"
+                        android:textSize="20sp"
+                        android:text="Lenguaje"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/language_dropdown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:fontFamily="@font/amaranth"
+                            android:textSize="18sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 app:strokeWidth="4dp"
-                app:strokeColor="#4A7BA7">
+                app:strokeColor="#4A7BA7"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/amaranth"
-                    android:textSize="24dp"
-                    android:text="Region"/>
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/amaranth"
+                        android:textSize="20sp"
+                        android:text="Region"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/region_dropdown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:fontFamily="@font/amaranth"
+                            android:textSize="18sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <View
+                android:id="@+id/sep2"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="#4A7BA7"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/amaranth"
+                android:layout_marginStart="16dp"
+                android:textSize="32sp"
+                android:text="Texto"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:strokeWidth="4dp"
+                app:strokeColor="#4A7BA7"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/amaranth"
+                        android:textSize="20sp"
+                        android:text="Tamaño de la fuente"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/font_size_dropdown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:fontFamily="@font/amaranth"
+                            android:textSize="18sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:strokeWidth="4dp"
+                app:strokeColor="#4A7BA7"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/amaranth"
+                        android:textSize="20sp"
+                        android:text="Tipo de fuente"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/font_type_dropdown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:fontFamily="@font/amaranth"
+                            android:textSize="18sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <View
+                android:id="@+id/sep3"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="#4A7BA7"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/amaranth"
+                android:textSize="32sp"
+                android:text="Lectura automática"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="15dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:strokeWidth="4dp"
+                app:strokeColor="#4A7BA7"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/amaranth"
+                        android:textSize="20sp"
+                        android:text="Velocidad de lectura"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/reading_speed_dropdown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:fontFamily="@font/amaranth"
+                            android:textSize="18sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:strokeWidth="4dp"
+                app:strokeColor="#4A7BA7"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/amaranth"
+                        android:textSize="20sp"
+                        android:text="Volumen de la voz"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/voice_volume_dropdown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:fontFamily="@font/amaranth"
+                            android:textSize="18sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </ScrollView>
 
-
+    <Button
+        android:id="@+id/settings_back"
+        style="@style/Widget.MaterialComponents.Button.Icon"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:padding="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        app:backgroundTint="#4A7BA7"
+        app:cornerRadius="50dp"
+        app:icon="@drawable/rounded_arrow_back_ios_new_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
