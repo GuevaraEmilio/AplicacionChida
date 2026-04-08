@@ -52,7 +52,7 @@ public class openNews extends BaseActivity {
         contentView = findViewById(R.id.open_news_content);
         Button back = findViewById(R.id.news_back);
         Button read = findViewById(R.id.readOL);
-        Button abst = findViewById(R.id.abst);
+        Button boton01 = findViewById(R.id.boton01);
 
         //Se obtienen los datos que se reciben de la api
         String title = getIntent().getStringExtra("title");
@@ -63,6 +63,26 @@ public class openNews extends BaseActivity {
         // Cuando se presiona el boton de atras, se cierra la actividad
         back.setOnClickListener(v -> finish());
 
+        boton01.setOnClickListener(v -> {
+            if (fullArticleText.isEmpty()) {
+                Toast.makeText(this, "Cargando contenido...", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            isAbstSelected = !isAbstSelected;
+            if (isAbstSelected) {
+                boton01.setText("Leer Nota Completa");
+                if (summaryText.isEmpty()) {
+                    fetchSummary(url);
+                } else {
+                    contentView.setText(summaryText);
+                }
+            } else {
+                boton01.setText("Leer Resumen");
+                contentView.setText(fullArticleText);
+            }
+        });
+
         // inicializa funcion de lectura en voz alta
         tts = new TextToSpeech(this, status -> {
             if (status == TextToSpeech.SUCCESS) {
@@ -71,11 +91,7 @@ public class openNews extends BaseActivity {
                 // Aplicar configuracion de velocidad y volumen
                 SharedPreferences prefs = getSharedPreferences("mySettings", MODE_PRIVATE);
                 float speed = prefs.getFloat("reading_speed", 1.0f);
-                float volume = prefs.getFloat("voice_volume", 1.0f);
-                
                 tts.setSpeechRate(speed);
-                // El volumen de TTS no se puede configurar directamente con un float en tts.setVolume ya que no existe esa funcion.
-                // Se suele manejar a traves de los parametros del Bundle en el metodo speak().
 
                 tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {//Registra el progreso de la voz
                     @Override
@@ -85,30 +101,39 @@ public class openNews extends BaseActivity {
                     public void onDone(String utteranceId) {
                         runOnUiThread(() -> {
                             isReading = false;
-                            read.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#CCCCCC")));
-                            read.setAlpha(0.5f);
+                            // Al terminar de leer, vuelve a su estado "activado" (azul)
+                            read.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4A7BA7")));
+                            read.setAlpha(1.0f);
                         });
                     }
 
                     @Override
-                    public void onError(String utteranceId) {}
+                    public void onError(String utteranceId) {
+                        runOnUiThread(() -> {
+                            isReading = false;
+                            read.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4A7BA7")));
+                            read.setAlpha(1.0f);
+                        });
+                    }
                 });
             }
         });
 
-        // El boton de resumen inicia desactivado
-        abst.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4A7BA7")));
-        abst.setAlpha(1.0f);
-        //El boton de lectura inicia desactivado
-        read.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#CCCCCC")));
-        read.setAlpha(0.5f);
+        // Configuración inicial de los botones
+        boton01.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4A7BA7")));
+        boton01.setAlpha(1.0f);
+        
+        // El botón de lectura inicia "activado" (azul) para que solo cambie a gris al hablar
+        read.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4A7BA7")));
+        read.setAlpha(1.0f);
 
         read.setOnClickListener(v -> { //Cuando se presiona el boton de leer...
             if (isReading) { // si esta leyendo...
                 if (tts != null) tts.stop();
                 isReading = false;
-                read.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#CCCCCC")));
-                read.setAlpha(0.5f);
+                // Al detenerse, vuelve a su estado "activado"
+                read.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4A7BA7")));
+                read.setAlpha(1.0f);
             } else {
                 String text = contentView.getText().toString();
                 if (!text.isEmpty() && tts != null) {
@@ -123,31 +148,10 @@ public class openNews extends BaseActivity {
                     
                     tts.speak(text, TextToSpeech.QUEUE_FLUSH, params, "NEWS_READER_ID");
                     isReading = true;
-                    read.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4A7BA7")));
-                    read.setAlpha(1.0f);
+                    // Al empezar a leer, cambia al estado "desactivado" (gris)
+                    read.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#CCCCCC")));
+                    read.setAlpha(0.5f);
                 }
-            }
-        });
-
-        abst.setOnClickListener(v -> {
-            if (fullArticleText.isEmpty()) {
-                Toast.makeText(this, "Cargando contenido...", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            isAbstSelected = !isAbstSelected;
-            if (isAbstSelected) {
-                abst.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4A7BA7")));
-                abst.setAlpha(1.0f);
-                if (summaryText.isEmpty()) {
-                    fetchSummary(url);
-                } else {
-                    contentView.setText(summaryText);
-                }
-            } else {
-                abst.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#CCCCCC")));
-                abst.setAlpha(0.5f);
-                contentView.setText(fullArticleText);
             }
         });
 

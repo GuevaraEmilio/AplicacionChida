@@ -6,12 +6,14 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     tools:context=".openNews">
-    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:elevation="5dp"
         android:fillViewport="true"
-        tools:context=".openNews">
+        tools:context=".openNews"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/news_back">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,6 +45,16 @@
                 android:textColor="#000000"
                 android:textSize="16sp" />
 
+            <Button
+                android:id="@+id/boton01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#4A7BA7"
+                android:elevation="4dp"
+                android:fontFamily="@font/amaranth"
+                android:text="Leer Nota Completa"
+                android:textSize="24dp" />
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -64,37 +76,27 @@
         app:icon="@drawable/rounded_arrow_back_ios_new_24"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
-        app:iconSize="40dp"
+        app:iconSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
         android:id="@+id/readOL"
         style="@style/Widget.MaterialComponents.Button.Icon"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="70dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
+        android:visibility="visible"
+        android:fontFamily="@font/amaranth"
+        android:textSize="20dp"
+        android:text="Leer en voz alta"
         app:backgroundTint="#4A7BA7"
         app:cornerRadius="35dp"
         app:icon="@drawable/rounded_text_to_speech_24"
         app:iconSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/news_back"
-        app:layout_constraintEnd_toStartOf="@+id/abst"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/abst"
-        style="@style/Widget.MaterialComponents.Button.Icon"
-        android:layout_width="100dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        app:backgroundTint="#4A7BA7"
-        app:cornerRadius="35dp"
-        app:icon="@drawable/rounded_text_snippet_24"
-        app:iconSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/readOL"
-        app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
